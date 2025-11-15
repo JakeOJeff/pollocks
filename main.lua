@@ -1,5 +1,8 @@
 local controller = require "controller"
 
+wW = love.graphics.getWidth()
+wH = love.graphics.getHeight()
+
 function love.load()
     controller:load()
 end

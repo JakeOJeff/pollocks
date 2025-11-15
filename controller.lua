@@ -18,11 +18,25 @@ function controller:load()
 end
 
 function controller:update(dt)
+    -- Turning
+
+    if love.keyboard.isDown("a") then
+        self.rotation = self.rotation - 90 * dt
+    elseif love.keyboard.isDown("d") then
+        self.rotation = self.rotation + 90 * dt
+    end
+
+
+    local dx = math.cos(self.rotation)
+    local dy = math.sin(self.rotation)
+
     -- Movement
     if love.keyboard.isDown("w") then
-        self.yVel = self.yVel - self.acceleration * dt
+        self.xVel = self.xVel - dx * self.acceleration * dt
+        self.yVel = self.yVel - dy * self.acceleration * dt
     elseif love.keyboard.isDown("s") then
-        self.yVel = self.yVel + self.acceleration * dt
+        self.xVel = self.xVel + dx * self.acceleration * dt
+        self.yVel = self.yVel + dy * self.acceleration * dt
     else
 
         if self.yVel > 0 then
@@ -32,12 +46,8 @@ function controller:update(dt)
         end
     end
 
-    if love.keyboard.isDown("a") then
-        self.rotation = self.rotation - 10 * dt
-    elseif love.keyboard.isDown("d") then
-        self.rotation = self.rotation + 10 * dt
-    end
 
+    self.x = self.x + self.xVel * dt
     self.y = self.y + self.yVel * dt
 end
 
