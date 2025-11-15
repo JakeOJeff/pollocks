@@ -1,5 +1,5 @@
 local controller = require "controller"
-local backpack = require "backpack"
+local backpack = require "systems.backpack"
 
 wW = love.graphics.getWidth()
 wH = love.graphics.getHeight()

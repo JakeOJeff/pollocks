@@ -2,7 +2,7 @@ local backpack = {}
 
 function backpack:load()
     self.inventory = 0
-    self.equipped = 1
+    self.equipped = 6
     self.owned = {}
     self.packs = {
         {
