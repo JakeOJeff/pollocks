@@ -21,11 +21,11 @@ function controller:load()
 end
 
 function controller:update(dt)
-    for i = 1, 60 do
+    for i = 1, 600 do
         table.insert(self.particles, {
-            x = self.x,
-            y = self.y,
-            life = 0,
+            x = self.x + math.random(-4, 4),
+            y = self.y + math.random(-2, 2),
+            life = 0 + math.random(0.2, 0.5),
             maxLife = 1
         })
     end
@@ -62,9 +62,15 @@ function controller:update(dt)
 
     self.x = (self.x + self.xVel * dt) % wW
     self.y = (self.y + self.yVel * dt) % wH
+
+
+    
 end
 
 function controller:draw()
+    for i,v in ipairs(self.particles) do
+        love.graphics.circle("fill", v.x, v.y, 3)
+    end
     love.graphics.draw(self.img, self.x, self.y, -self.rotation, self.scaleX, self.scaleY)
 end
 
