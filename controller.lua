@@ -66,7 +66,10 @@ function controller:update(dt)
     end
 
     for i, v in ipairs(self.particles) do
-                v.life = v.life + dt
+        v.x = v.x + math.random(2, -2)
+        v.y = v.y + math.random(2, -2)
+
+        v.life = v.life + dt
         if v.life > v.maxLife then
             table.remove(self.particles, i)
         end
@@ -75,8 +78,11 @@ end
 
 function controller:draw()
     for i,v in ipairs(self.particles) do
+        love.graphics.setColor(1,1,1, v.life/v.maxLife)
         love.graphics.circle("fill", v.x, v.y, 3)
+        love.graphics.setColor(1,1,1)
     end
+    love.graphics.setColor(1,1,1)
     love.graphics.draw(self.img, self.x, self.y, -self.rotation, self.scaleX, self.scaleY)
 end
 
