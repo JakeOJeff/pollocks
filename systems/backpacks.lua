@@ -41,10 +41,51 @@ function backpacks:load()
             owned = false
         },
         {
-            
+            name = "Ballistic Nylon",
+            cost = 16000,
+            capacity = 25000,
+            id = 6,
+            owned = false
+        },
+        {
+            name = "X-Pac",
+            cost = 65000,
+            capacity = 150000,
+            id = 7,
+            owned = false
+        },
+        {
+            name = "Dyneema Grid",
+            cost = 180000,
+            capacity = 400000,
+            id = 8,
+            owned = false
+        },
+        {
+            name = "Dyneema Hybrid",
+            cost = 550000,
+            capacity = 750000,
+            id = 9,
+            owned = false
+        },
+        {
+            name = "Kevlar-Weave",
+            cost = 1600000,
+            capacity = 2000000,
+            id = 10,
+            owned = false
+        },
+        {
+            name = "Carbon Fabric",
+            cost = 5000000,
+            capacity = 12500000,
+            id = 11,
+            owned = false
         }
     }
 end
+
+
 
 
 return backpacks
