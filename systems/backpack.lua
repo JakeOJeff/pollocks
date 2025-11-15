@@ -1,6 +1,6 @@
-local backpacks = {}
+local backpack = {}
 
-function backpacks:load()
+function backpack:load()
     self.inventory = 0
     self.equipped = 1
     self.owned = {}
@@ -85,7 +85,11 @@ function backpacks:load()
     }
 end
 
+function backpack()
+    
+end
 
 
 
-return backpacks
+
+return backpack
