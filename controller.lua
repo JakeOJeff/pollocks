@@ -21,14 +21,7 @@ function controller:load()
 end
 
 function controller:update(dt)
-    for i = 1, 600 do
-        table.insert(self.particles, {
-            x = self.x + math.random(-4, 4),
-            y = self.y + math.random(-2, 2),
-            life = 0 + math.random(0.2, 0.5),
-            maxLife = 1
-        })
-    end
+
     -- Turning
 
     if love.keyboard.isDown("d") then
@@ -63,8 +56,21 @@ function controller:update(dt)
     self.x = (self.x + self.xVel * dt) % wW
     self.y = (self.y + self.yVel * dt) % wH
 
+    for i = 1, 45 do
+        table.insert(self.particles, {
+            x = self.x + self.width/2 +  love.math.random(-4, 4),
+            y = self.y + self.height + love.math.random(-2, 2),
+            life = 0,
+            maxLife = 0.1
+        })
+    end
 
-    
+    for i, v in ipairs(self.particles) do
+                v.life = v.life + dt
+        if v.life > v.maxLife then
+            table.remove(self.particles, i)
+        end
+    end
 end
 
 function controller:draw()
