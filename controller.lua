@@ -54,10 +54,16 @@ function controller:update(dt)
     self.y = (self.y - dy * self.speed * dt) % wH
 
 
+    local ox = self.width/2
+    local oy = self.height/2
+
+    local rx = ox * dx - oy * dy
+    local ry = ox * dy + oy * dx
+
     for i = 1, 45 do
         table.insert(self.particles, {
-            x = self.x + self.width/2 +  love.math.random(-4, 4),
-            y = self.y + self.height + love.math.random(-2, 2),
+            x = self.x + rx +  love.math.random(-4, 4),
+            y = self.y + ry + love.math.random(-2, 2),
             life = 0,
             maxLife = 0.1
         })
@@ -81,7 +87,7 @@ function controller:draw()
         love.graphics.setColor(1,1,1)
     end
     love.graphics.setColor(1,1,1)
-    love.graphics.draw(self.img, self.x, self.y, -self.rotation, self.scaleX, self.scaleY)
+    love.graphics.draw(self.img, self.x, self.y, -self.rotation, self.scaleX, self.scaleY, self.img:getWidth() / 2, self.img:getHeight() / 2)
 end
 
 return controller
