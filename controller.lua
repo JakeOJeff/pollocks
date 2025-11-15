@@ -55,7 +55,7 @@ function controller:update(dt)
 
 
     local ox = self.width/2
-    local oy = self.height/2
+    local oy = 0
 
     local rx = ox * dx - oy * dy
     local ry = ox * dy + oy * dx
