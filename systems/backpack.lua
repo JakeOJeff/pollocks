@@ -85,8 +85,13 @@ function backpack:load()
     }
 end
 
-function backpack()
-    
+function backpack:updateOwned()
+    self.owned = {}
+    for _, v in ipairs(self.packs) do
+        if v.owned then
+            table.insert(self.owned, v)
+        end
+    end
 end
 
 
