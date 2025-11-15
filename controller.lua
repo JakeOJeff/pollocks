@@ -13,8 +13,10 @@ function controller:load()
     self.scaleX = self.width/self.img:getWidth()
     self.scaleY = self.height/self.img:getHeight()
 
+    self.speed = 0
+    self.maxSpeed = 600
     self.acceleration = 200
-    self.friction = 500
+    self.friction = 2
 
     self.particles = {}
     
@@ -31,30 +33,26 @@ function controller:update(dt)
     end
 
 
-    local dx = math.sin(self.rotation)
-    local dy = math.cos(self.rotation)
 
     -- Movement
     if love.keyboard.isDown("w") then
-        self.xVel = self.xVel - dx * self.acceleration * dt
-        self.yVel = self.yVel - dy * self.acceleration * dt
+        self.speed = math.min(self.speed + self.acceleration * dt, self.maxSpeed)
     elseif love.keyboard.isDown("s") then
-        self.xVel = self.xVel + dx * self.acceleration * dt
-        self.yVel = self.yVel + dy * self.acceleration * dt
+        self.speed = math.max(self.speed - self.acceleration * dt, -self.maxSpeed)
     else
-
-        if self.yVel > 0 then
-            self.yVel = math.max(0, self.yVel - self.friction * dt)
-            self.xVel = math.max(0, self.xVel - self.friction * dt)
-        elseif self.yVel < 0 then
-            self.yVel = math.min(0, self.yVel + self.friction * dt)
-            self.xVel = math.min(0, self.xVel + self.friction * dt)
+        if self.speed > 0 then
+            self.speed = math.max(0, self.speed - self.friction * dt)
+        elseif self.speed < 0 then
+            self.speed = math.min(0, self.speed + self.friction * dt)
         end
     end
 
+    local dx = math.sin(self.rotation)
+    local dy = math.cos(self.rotation)
+    -- APPLY VELOCITY
+    self.x = (self.x - dx * self.speed * dt) % wW
+    self.y = (self.y - dy * self.speed * dt) % wH
 
-    self.x = (self.x + self.xVel * dt) % wW
-    self.y = (self.y + self.yVel * dt) % wH
 
     for i = 1, 45 do
         table.insert(self.particles, {
