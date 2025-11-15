@@ -14,6 +14,21 @@ function controller:load()
     self.scaleY = self.height/self.img:getHeight()
 end
 
+function controller:update(dt)
+    self.y = self.y + self.yVel
+    self.yVel = self.yVel - 5 * dt
+    if love.keyboard.isDown("s") then
+        self.yVel = self.yVel - 20 * dt
+    elseif love.graphics.isDown("w") then
+        self.yVel = self.yVel + 20 * dt
+    end
+    if love.graphics.isDown("a") then
+        self.rotation = self.rotation - 10 * dt
+    elseif love.graphics.isDown("d") then
+        self.rotation = self.rotation + 10 * dt
+    end
+end
+
 function controller:draw()
     love.graphics.draw(self.img, self.x, self.y, self.rotation, self.scaleX, self.scaleY)
 end
