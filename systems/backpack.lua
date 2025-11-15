@@ -94,7 +94,4 @@ function backpack:updateOwned()
     end
 end
 
-
-
-
 return backpack
