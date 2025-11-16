@@ -13,6 +13,7 @@ function controller:load()
     self.scaleX = self.width/self.img:getWidth()
     self.scaleY = self.height/self.img:getHeight()
 
+    self.accelerating = false
     self.speed = 0
     self.maxSpeed = 600
     self.acceleration = 200
@@ -37,9 +38,12 @@ function controller:update(dt)
     -- Movement
     if love.keyboard.isDown("w") then
         self.speed = math.min(self.speed + self.acceleration * dt, self.maxSpeed)
+        self.accelerating = true
     elseif love.keyboard.isDown("s") then
         self.speed = math.max(self.speed - self.acceleration * dt, -self.maxSpeed)
+        self.accelerating = true
     else
+        self.accelerating = false
         if self.speed > 0 then
             self.speed = math.max(0, self.speed - self.friction * dt)
         elseif self.speed < 0 then
@@ -81,10 +85,12 @@ function controller:update(dt)
 end
 
 function controller:draw()
-    for i,v in ipairs(self.particles) do
-        love.graphics.setColor(1,1,1, v.life/v.maxLife)
-        love.graphics.circle("fill", v.x, v.y, 3)
-        love.graphics.setColor(1,1,1)
+    if self.accelerating then
+        for i,v in ipairs(self.particles) do
+            love.graphics.setColor(1,1,1, v.life/v.maxLife)
+            love.graphics.circle("fill", v.x, v.y, 3)
+            love.graphics.setColor(1,1,1)
+        end
     end
     love.graphics.setColor(1,1,1)
     love.graphics.draw(self.img, self.x, self.y, -self.rotation, self.scaleX, self.scaleY, self.img:getWidth() / 2, self.img:getHeight() / 2)
