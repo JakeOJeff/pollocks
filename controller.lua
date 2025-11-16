@@ -22,6 +22,8 @@ function controller:load()
     self.particles = {}
     self.leftPath = {}
     self.rightPath = {}
+
+    self.bullets = {}
 end
 
 function controller:update(dt)
@@ -137,6 +139,19 @@ function controller:update(dt)
             table.remove(self.rightPath, i)
         end
     end
+end
+
+function controller:shoot(dx, dy)
+    local ox = -self.width/2
+    local oy = 0
+    local rx = ox * dx - oy * dy
+    local ry = ox * dy + oy * dx
+    table.insert(self.bullets, {
+        x = self.x + rx,
+        y = self.y + ry,
+        xVel = -dx * 200,
+        yVel = -dy * 200,
+    })
 end
 
 function controller:draw()
