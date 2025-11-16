@@ -20,6 +20,7 @@ function controller:load()
     self.friction = 2
 
     self.particles = {}
+    self.path = {}
     
 end
 
@@ -82,6 +83,23 @@ function controller:update(dt)
             table.remove(self.particles, i)
         end
     end
+
+    ox = self.width/2
+    oy = self.height/2
+
+    rx = ox * dx - oy * dy
+    ry = ox * dy + oy * dx
+
+    
+
+    for i = 1, 45 do
+        table.insert(self.path, {
+            x = self.x + rx +  love.math.random(-4, 4),
+            y = self.y + ry + love.math.random(-2, 2),
+            life = 0,
+            maxLife = 0.1
+        })
+    end
 end
 
 function controller:draw()
@@ -92,6 +110,13 @@ function controller:draw()
             love.graphics.setColor(1,1,1)
         end
     end
+    local lineLeft = {}
+    for i, v in ipairs(self.path) do
+        table.insert(lineLeft, v.x)
+        table.insert(lineLeft, v.y)
+    end
+
+    love.graphics.line(lineLeft)
     love.graphics.setColor(1,1,1)
     love.graphics.draw(self.img, self.x, self.y, -self.rotation, self.scaleX, self.scaleY, self.img:getWidth() / 2, self.img:getHeight() / 2)
 end
