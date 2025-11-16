@@ -12,6 +12,7 @@ function love.load()
 end
 function love.update(dt)
     controller:update(dt)
+    stars:update(dt)
 end
 
 function love.draw()

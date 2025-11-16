@@ -2,13 +2,24 @@ local stars = {}
 
 
 function stars:load()
-    self.sets = {}
-    for i = 1, 200 do
-        table.insert(self.sets, {
-            x = math.random(0, wW),
-            y = math.random(0, wH),
-            size = math.random(0, 3)
-        })
+    self.chunkSize = 400
+    self.starsPerChunk = 40
+    self.chunks = {}
+    self.playerX = 0
+    self.playerY = 0
+    -- self.sets = {}
+    -- for i = 1, 200 do
+    --     table.insert(self.sets, {
+    --         x = math.random(0, wW),
+    --         y = math.random(0, wH),
+    --         size = math.random(0, 3)
+    --     })
+    -- end
+end
+
+local function getChunkCoord(v, chunkSize)
+    if v >= 0 then
+        return math
     end
 end
 
