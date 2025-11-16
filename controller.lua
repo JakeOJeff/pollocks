@@ -94,11 +94,21 @@ function controller:update(dt)
 
     for i = 1, 45 do
         table.insert(self.path, {
-            x = self.x + rx +  love.math.random(-4, 4),
-            y = self.y + ry + love.math.random(-2, 2),
+            x = self.x + rx,
+            y = self.y + ry,
             life = 0,
             maxLife = 0.1
         })
+    end
+    
+    for i, v in ipairs(self.path) do
+        v.x = v.x
+        v.y = v.y
+
+        v.life = v.life + dt
+        if v.life > v.maxLife then
+            table.remove(self.path, i)
+        end
     end
 end
 
