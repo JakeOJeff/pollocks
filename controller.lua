@@ -139,6 +139,11 @@ function controller:update(dt)
             table.remove(self.rightPath, i)
         end
     end
+
+    for i,v in ipairs(self.bullets) do
+        v.x = v.x + v.xVel
+        v.y = v.y + v.yVel
+    end
 end
 
 function controller:shoot(dx, dy)
@@ -177,6 +182,9 @@ function controller:draw()
     love.graphics.line(lineRight)
 
     love.graphics.setColor(1,1,1)
+    for i,v in ipairs(self.bullets) do
+        love.graphicsa.circle("line", v.x, v.y, 2)
+    end
     love.graphics.draw(self.img, self.x, self.y, -self.rotation, self.scaleX, self.scaleY, self.img:getWidth() / 2, self.img:getHeight() / 2)
 end
 
