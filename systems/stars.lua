@@ -5,9 +5,9 @@ function stars:load()
     self.sets = {}
     for i = 1, 200 do
         table.insert(self.sets, {
-            x = love.math.random(0, wW),
-            y = love.math.random(0, wH),
-            size = love.math.random(0, 3)
+            x = math.random(0, wW),
+            y = math.random(0, wH),
+            size = math.random(0, 3)
         })
     end
 end

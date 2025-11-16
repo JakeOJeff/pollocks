@@ -20,8 +20,8 @@ function controller:load()
     self.friction = 2
 
     self.particles = {}
-    self.path = {}
-    
+    self.leftPath = {}
+    self.rightPath = {}
 end
 
 function controller:update(dt)
@@ -93,7 +93,7 @@ function controller:update(dt)
     
 
     for i = 1, 45 do
-        table.insert(self.path, {
+        table.insert(self.leftPath, {
             x = self.x + rx,
             y = self.y + ry,
             life = 0,
@@ -101,13 +101,40 @@ function controller:update(dt)
         })
     end
     
-    for i, v in ipairs(self.path) do
+    for i, v in ipairs(self.leftPath) do
         v.x = v.x
         v.y = v.y
 
         v.life = v.life + dt
         if v.life > v.maxLife then
-            table.remove(self.path, i)
+            table.remove(self.leftPath, i)
+        end
+    end
+
+    ox = self.width/2
+    oy = -self.height/2
+
+    rx = ox * dx - oy * dy
+    ry = ox * dy + oy * dx
+
+    
+
+    for i = 1, 45 do
+        table.insert(self.rightPath, {
+            x = self.x + rx,
+            y = self.y + ry,
+            life = 0,
+            maxLife = 0.1
+        })
+    end
+    
+    for i, v in ipairs(self.rightPath) do
+        v.x = v.x
+        v.y = v.y
+
+        v.life = v.life + dt
+        if v.life > v.maxLife then
+            table.remove(self.rightPath, i)
         end
     end
 end
@@ -121,12 +148,19 @@ function controller:draw()
         end
     end
     local lineLeft = {}
-    for i, v in ipairs(self.path) do
+    local lineRight = {}
+    love.graphics.setColor(1,1,1,0.7)
+    for i, v in ipairs(self.leftPath) do
         table.insert(lineLeft, v.x)
         table.insert(lineLeft, v.y)
     end
-
+    for i, v in ipairs(self.rightPath) do
+        table.insert(lineRight, v.x)
+        table.insert(lineRight, v.y)
+    end
     love.graphics.line(lineLeft)
+    love.graphics.line(lineRight)
+
     love.graphics.setColor(1,1,1)
     love.graphics.draw(self.img, self.x, self.y, -self.rotation, self.scaleX, self.scaleY, self.img:getWidth() / 2, self.img:getHeight() / 2)
 end
