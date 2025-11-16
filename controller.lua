@@ -15,7 +15,7 @@ function controller:load()
 
     self.accelerating = false
     self.speed = 0
-    self.maxSpeed = 600
+    self.maxSpeed = 2000
     self.acceleration = 200
     self.friction = 2
 
@@ -67,10 +67,10 @@ function controller:update(dt)
     local rx = ox * dx - oy * dy
     local ry = ox * dy + oy * dx
 
-    for i = 1, 45 do
+    for i = 1, self.speed/4 do
         table.insert(self.particles, {
-            x = wW/2 + rx +  love.math.random(-4, 4),
-            y = wH/2 + ry + love.math.random(-self.speed, self.speed),
+            x = self.x + rx +  love.math.random(-4, 4),
+            y = self.y + ry + love.math.random(-4, 4),
             life = 0,
             maxLife = 0.1
         })
@@ -184,7 +184,15 @@ function controller:drawTrails()
 
     local leftL = {}
     local rightL = {}
-
+   if self.accelerating then
+        for i,v in ipairs(self.particles) do
+            local sx = v.x - self.x + cx
+            local sy = v.y - self.y + cy
+            love.graphics.setColor(1,1,1, v.life/v.maxLife)
+            love.graphics.circle("fill", sx, sy, 3 )
+            love.graphics.setColor(1,1,1)
+        end
+    end
 
     love.graphics.setColor(1,1,1,0.6)
 
