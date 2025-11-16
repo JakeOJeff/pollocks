@@ -69,8 +69,8 @@ function controller:update(dt)
 
     for i = 1, 45 do
         table.insert(self.particles, {
-            x = self.x + rx +  love.math.random(-4, 4),
-            y = self.y + ry + love.math.random(-2, 2),
+            x = wW/2 + rx +  love.math.random(-4, 4),
+            y = wH/2 + ry + love.math.random(-self.speed, self.speed),
             life = 0,
             maxLife = 0.1
         })
@@ -160,26 +160,9 @@ function controller:shoot(dx, dy)
 end
 
 function controller:draw()
-    if self.accelerating then
-        for i,v in ipairs(self.particles) do
-            love.graphics.setColor(1,1,1, v.life/v.maxLife)
-            love.graphics.circle("fill", v.x, v.y, 3 )
-            love.graphics.setColor(1,1,1)
-        end
-    end
-    local lineLeft = {}
-    local lineRight = {}
-    love.graphics.setColor(1,1,1,0.7)
-    for i, v in ipairs(self.leftPath) do
-        table.insert(lineLeft, v.x)
-        table.insert(lineLeft, v.y)
-    end
-    for i, v in ipairs(self.rightPath) do
-        table.insert(lineRight, v.x)
-        table.insert(lineRight, v.y)
-    end
-    love.graphics.line(lineLeft)
-    love.graphics.line(lineRight)
+ 
+    self:drawTrails()
+
 
     love.graphics.setColor(1,1,1)
     for i,v in ipairs(self.bullets) do
@@ -194,6 +177,35 @@ function controller:mousepressed(x, y, button)
         local dy = math.cos(self.rotation)
         self:shoot(dx, dy)
     end
+end
+function controller:drawTrails()
+    local cx = wW/2
+    local cy = wH/2
+
+    local leftL = {}
+    local rightL = {}
+
+
+    love.graphics.setColor(1,1,1,0.6)
+
+    for _, v in ipairs(self.leftPath) do
+        local sx = v.x - self.x + cx
+        local sy = v.y - self.y + cy
+        table.insert(leftL, sx)
+        table.insert(leftL, sy)
+    end
+
+    for _, v in ipairs(self.rightPath) do
+        local sx = v.x - self.x + cx
+        local sy = v.y - self.y + cy
+        table.insert(rightL, sx)
+        table.insert(rightL, sy)
+    end
+
+    love.graphics.line(leftL)
+    love.graphics.line(rightL)
+
+    love.graphics.setColor(1,1,1)
 end
 
 return controller
