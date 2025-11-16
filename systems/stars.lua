@@ -12,6 +12,12 @@ function stars:load()
     end
 end
 
+function stars:update(dt)
+    for i, v in ipairs(self.sets) do
+        v.x = v.x + math.random(-3, 3) * dt
+        v.y = v.y + math.random(-3, 3) * dt
+    end
+end
 
 function stars:draw()
     for i, v in ipairs(self.sets) do

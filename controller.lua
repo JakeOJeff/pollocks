@@ -141,8 +141,8 @@ function controller:update(dt)
     end
 
     for i,v in ipairs(self.bullets) do
-        v.x = v.x + v.xVel
-        v.y = v.y + v.yVel
+        v.x = v.x + v.xVel * dt
+        v.y = v.y + v.yVel * dt
     end
 end
 
@@ -183,9 +183,17 @@ function controller:draw()
 
     love.graphics.setColor(1,1,1)
     for i,v in ipairs(self.bullets) do
-        love.graphicsa.circle("line", v.x, v.y, 2)
+        love.graphics.circle("line", v.x, v.y, 2)
     end
     love.graphics.draw(self.img, self.x, self.y, -self.rotation, self.scaleX, self.scaleY, self.img:getWidth() / 2, self.img:getHeight() / 2)
+end
+
+function controller:mousepressed(x, y, button)
+    if button == 1 then
+        local dx = math.sin(self.rotation)
+        local dy = math.cos(self.rotation)
+        self:shoot(dx, dy)
+    end
 end
 
 return controller

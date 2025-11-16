@@ -19,3 +19,8 @@ function love.draw()
     love.graphics.print(backpack.inventory.."/"..backpack.packs[backpack.equipped].capacity)
     controller:draw()
 end
+
+function love.mousepressed(x, y, button)
+    controller:mousepressed(x, y, button)
+    
+end
