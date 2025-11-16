@@ -15,7 +15,7 @@ end
 
 function stars:draw()
     for i, v in ipairs(self.sets) do
-        love.graphics.circle("fill",v.x, v.y, v.size)
+        love.graphics.circle("fill",v.x, v.y, v.size) -- + love.math.random(-0.2, 0.2
     end
 end
 

@@ -88,7 +88,7 @@ function controller:draw()
     if self.accelerating then
         for i,v in ipairs(self.particles) do
             love.graphics.setColor(1,1,1, v.life/v.maxLife)
-            love.graphics.circle("fill", v.x, v.y, 3)
+            love.graphics.circle("fill", v.x, v.y, 3 )
             love.graphics.setColor(1,1,1)
         end
     end
