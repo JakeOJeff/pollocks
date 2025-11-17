@@ -62,33 +62,7 @@ function controller:update(dt)
 
     self.particles = self:normalizeEffects(self.width/2, 0,love.math.random(-4, 4),math.random(2, -2), self.particles, self.speed/4, dt)
     self.leftPath = self:normalizeEffects(self.width/2, self.height/2, 0, 0, self.leftPath, 45, dt)
-
-    ox = self.width/2
-    oy = -self.height/2
-
-    rx = ox * dx - oy * dy
-    ry = ox * dy + oy * dx
-
-    
-
-    for i = 1, 45 do
-        table.insert(self.rightPath, {
-            x = self.x + rx,
-            y = self.y + ry,
-            life = 0,
-            maxLife = 0.1
-        })
-    end
-    
-    for i, v in ipairs(self.rightPath) do
-        v.x = v.x
-        v.y = v.y
-
-        v.life = v.life + dt
-        if v.life > v.maxLife then
-            table.remove(self.rightPath, i)
-        end
-    end
+    self.rightPath = self:normalizeEffects(self.width/2, -self.height/2, 0, 0, self.rightPath, 45, dt)
 
     for i,v in ipairs(self.bullets) do
         v.x = v.x + v.xVel * dt
