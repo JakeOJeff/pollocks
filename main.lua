@@ -17,6 +17,9 @@ function love.load()
 end
 function love.update(dt)
     controller:update(dt)
+    if love.mouse.isDown(1) then
+        rocks:destroy()
+    end
     stars:update(dt, controller.x, controller.y)
 end
 
