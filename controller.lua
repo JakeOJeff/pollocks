@@ -60,58 +60,8 @@ function controller:update(dt)
     self.x = (self.x - dx * self.speed * dt)
     self.y = (self.y - dy * self.speed * dt)
 
-
-    local ox = self.width/2
-    local oy = 0
-
-    local rx = ox * dx - oy * dy
-    local ry = ox * dy + oy * dx
-
-    for i = 1, self.speed/4 do
-        table.insert(self.particles, {
-            x = self.x + rx +  love.math.random(-4, 4),
-            y = self.y + ry + love.math.random(-4, 4),
-            life = 0,
-            maxLife = 0.1
-        })
-    end
-
-    for i, v in ipairs(self.particles) do
-        v.x = v.x + math.random(2, -2)
-        v.y = v.y + math.random(2, -2)
-
-        v.life = v.life + dt
-        if v.life > v.maxLife then
-            table.remove(self.particles, i)
-        end
-    end
-
-    ox = self.width/2
-    oy = self.height/2
-
-    rx = ox * dx - oy * dy
-    ry = ox * dy + oy * dx
-
-    
-
-    for i = 1, 45 do
-        table.insert(self.leftPath, {
-            x = self.x + rx,
-            y = self.y + ry,
-            life = 0,
-            maxLife = 0.1
-        })
-    end
-    
-    for i, v in ipairs(self.leftPath) do
-        v.x = v.x
-        v.y = v.y
-
-        v.life = v.life + dt
-        if v.life > v.maxLife then
-            table.remove(self.leftPath, i)
-        end
-    end
+    self.particles = self:normalizeEffects(self.width/2, 0,love.math.random(-4, 4),math.random(2, -2), self.particles, self.speed/4, dt)
+    self.leftPath = self:normalizeEffects(self.width/2, self.height/2, 0, 0, self.leftPath, 45, dt)
 
     ox = self.width/2
     oy = -self.height/2
@@ -179,45 +129,43 @@ function controller:mousepressed(x, y, button)
     end
 end
 
-local function normalizeEffects(ox, oy, table, rate)
+function controller:normalizeEffects(ox, oy, insertRand, moveRand, t, rate, dt)
     local dx = math.sin(self.rotation)
     local dy = math.cos(self.rotation)
     local rx = ox * dx - oy * dy
     local ry = ox * dy + oy * dx
 
     for i = 1, rate do
-        table.insert(table, {
-            x = self.x + rx +  love.math.random(-4, 4),
-            y = self.y + ry + love.math.random(-4, 4),
+        table.insert(t, {
+            x = self.x + rx + insertRand,
+            y = self.y + ry + insertRand,
             life = 0,
             maxLife = 0.1
         })
     end
 
-    for i, v in ipairs(table) do
-        v.x = v.x + math.random(2, -2)
-        v.y = v.y + math.random(2, -2)
+    for i, v in ipairs(t) do
+        v.x = v.x + moveRand 
+        v.y = v.y + moveRand 
 
         v.life = v.life + dt
         if v.life > v.maxLife then
-            table.remove(table, i)
+            table.remove(t, i)
         end
     end
 
-    return table
+    return t
 end
 function controller:drawTrails()
-    local cx = wW/2
-    local cy = wH/2
+
 
     local leftL = {}
     local rightL = {}
    if self.accelerating then
         for i,v in ipairs(self.particles) do
-            local sx = v.x - self.x + cx
-            local sy = v.y - self.y + cy
+
             love.graphics.setColor(1,1,1, v.life/v.maxLife)
-            love.graphics.circle("fill", sx, sy, 3 )
+            love.graphics.circle("fill", v.x, v.y, 3 )
             love.graphics.setColor(1,1,1)
         end
     end
@@ -225,23 +173,23 @@ function controller:drawTrails()
     love.graphics.setColor(1,1,1,0.6)
 
     for _, v in ipairs(self.leftPath) do
-        local sx = v.x - self.x + cx
-        local sy = v.y - self.y + cy
-        table.insert(leftL, sx)
-        table.insert(leftL, sy)
+        table.insert(leftL, v.x)
+        table.insert(leftL, v.y)
     end
 
-    for _, v in ipairs(self.rightPath) do
-        local sx = v.x - self.x + cx
-        local sy = v.y - self.y + cy
-        table.insert(rightL, sx)
-        table.insert(rightL, sy)
-    end
+    -- for _, v in ipairs(self.rightPath) do
+    --     local sx = v.x - self.x + cx
+    --     local sy = v.y - self.y + cy
+    --     table.insert(rightL, sx)
+    --     table.insert(rightL, sy)
+    -- end
 
     love.graphics.line(leftL)
-    love.graphics.line(rightL)
+    -- love.graphics.line(rightL)
 
     love.graphics.setColor(1,1,1)
 end
-
+function rand(range1, range2)
+    return love.math.random(range1, range2)
+end
 return controller
