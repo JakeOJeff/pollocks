@@ -60,7 +60,7 @@ function controller:update(dt)
     self.x = (self.x - dx * self.speed * dt)
     self.y = (self.y - dy * self.speed * dt)
 
-    self.particles = self:normalizeEffects(self.width/2, 0,love.math.random(-4, 4),math.random(2, -2), self.particles, self.speed/4, dt)
+    self.particles = self:normalizeEffects(self.width/2, 0, rand(4, -4), rand(2, -2), self.particles, self.speed/4, dt)
     self.leftPath = self:normalizeEffects(self.width/2, self.height/2, 0, 0, self.leftPath, 45, dt)
     self.rightPath = self:normalizeEffects(self.width/2, -self.height/2, 0, 0, self.rightPath, 45, dt)
 
@@ -150,16 +150,13 @@ function controller:drawTrails()
         table.insert(leftL, v.x)
         table.insert(leftL, v.y)
     end
-
-    -- for _, v in ipairs(self.rightPath) do
-    --     local sx = v.x - self.x + cx
-    --     local sy = v.y - self.y + cy
-    --     table.insert(rightL, sx)
-    --     table.insert(rightL, sy)
-    -- end
+    for _, v in ipairs(self.rightPath) do
+        table.insert(rightL, v.x)
+        table.insert(rightL, v.y)
+    end
 
     love.graphics.line(leftL)
-    -- love.graphics.line(rightL)
+    love.graphics.line(rightL)
 
     love.graphics.setColor(1,1,1)
 end
