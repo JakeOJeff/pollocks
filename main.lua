@@ -1,3 +1,5 @@
+Camera = require "libs.camera"
+
 local controller = require "controller"
 local backpack = require "systems.backpack"
 local miner = require "systems.miner"
@@ -9,14 +11,18 @@ wW = love.graphics.getWidth()
 wH = love.graphics.getHeight()
 
 function love.load()
+    
     controller:load()
     backpack:load()
     location:load()
     stars:load()
     rocks:load()
+    camera = Camera(controller.x, controller.y)
 end
 function love.update(dt)
     controller:update(dt)
+    local dx, dy = controller.x - camera.x, controller.y - camera.y
+    camera:move(dx/2, dy/2)
     if love.mouse.isDown(1) then
         rocks:destroy()
     end
@@ -24,14 +30,16 @@ function love.update(dt)
 end
 
 function love.draw()
+    camera:attach()
     stars:draw()
-    love.graphics.print(backpack.inventory.."/"..backpack.packs[backpack.equipped].capacity)
-    controller:draw()
     rocks:draw()
-    love.graphics.push()
-    love.graphics.translate(controller.x, controller.y)
     location:draw()
-    love.graphics.pop()
+        controller:draw()
+
+    camera:detach()
+
+        love.graphics.print(backpack.inventory.."/"..backpack.packs[backpack.equipped].capacity)
+
 end
 
 function love.mousepressed(x, y, button)

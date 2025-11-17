@@ -168,7 +168,7 @@ function controller:draw()
     for i,v in ipairs(self.bullets) do
         love.graphics.circle("line", v.x, v.y, 2)
     end
-    love.graphics.draw(self.img, wW/2, wH/2, -self.rotation, self.scaleX, self.scaleY, self.img:getWidth() / 2, self.img:getHeight() / 2)
+    love.graphics.draw(self.img, self.x, self.y, -self.rotation, self.scaleX, self.scaleY, self.img:getWidth() / 2, self.img:getHeight() / 2)
 end
 
 function controller:mousepressed(x, y, button)
