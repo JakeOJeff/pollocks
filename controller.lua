@@ -178,6 +178,34 @@ function controller:mousepressed(x, y, button)
         self:shoot(dx, dy)
     end
 end
+
+local function normalizeEffects(ox, oy, table, rate)
+    local dx = math.sin(self.rotation)
+    local dy = math.cos(self.rotation)
+    local rx = ox * dx - oy * dy
+    local ry = ox * dy + oy * dx
+
+    for i = 1, rate do
+        table.insert(table, {
+            x = self.x + rx +  love.math.random(-4, 4),
+            y = self.y + ry + love.math.random(-4, 4),
+            life = 0,
+            maxLife = 0.1
+        })
+    end
+
+    for i, v in ipairs(table) do
+        v.x = v.x + math.random(2, -2)
+        v.y = v.y + math.random(2, -2)
+
+        v.life = v.life + dt
+        if v.life > v.maxLife then
+            table.remove(table, i)
+        end
+    end
+
+    return table
+end
 function controller:drawTrails()
     local cx = wW/2
     local cy = wH/2
