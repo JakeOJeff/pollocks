@@ -60,9 +60,9 @@ function controller:update(dt)
     self.x = (self.x - dx * self.speed * dt)
     self.y = (self.y - dy * self.speed * dt)
 
-    self.particles = self:normalizeEffects(self.width/2, 0, rand(4, -4), rand(2, -2), self.particles, self.speed/4, dt)
-    self.leftPath = self:normalizeEffects(self.width/2, self.height/2, 0, 0, self.leftPath, 45, dt)
-    self.rightPath = self:normalizeEffects(self.width/2, -self.height/2, 0, 0, self.rightPath, 45, dt)
+    self.particles = self:normalizeEffects(self.width/2, 0, {4, -4}, {2, -2}, self.particles, self.speed/4, dt)
+    self.leftPath = self:normalizeEffects(self.width/2, self.height/2, {0, 0}, {0, 0}, self.leftPath, 45, dt)
+    self.rightPath = self:normalizeEffects(self.width/2, -self.height/2, {0, 0}, {0, 0}, self.rightPath, 45, dt)
 
     for i,v in ipairs(self.bullets) do
         v.x = v.x + v.xVel * dt
@@ -111,16 +111,16 @@ function controller:normalizeEffects(ox, oy, insertRand, moveRand, t, rate, dt)
 
     for i = 1, rate do
         table.insert(t, {
-            x = self.x + rx + insertRand,
-            y = self.y + ry + insertRand,
+            x = self.x + rx + love.math.random(insertRand[1], insertRand[2]),
+            y = self.y + ry + love.math.random(insertRand[1], insertRand[2]),
             life = 0,
             maxLife = 0.1
         })
     end
 
     for i, v in ipairs(t) do
-        v.x = v.x + moveRand 
-        v.y = v.y + moveRand 
+        v.x = v.x + love.math.random(moveRand[1], moveRand[2]) 
+        v.y = v.y + love.math.random(moveRand[1], moveRand[2]) 
 
         v.life = v.life + dt
         if v.life > v.maxLife then
