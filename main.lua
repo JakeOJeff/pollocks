@@ -38,7 +38,7 @@ function love.draw()
 
     camera:detach()
 
-        love.graphics.print(backpack.inventory.."/"..backpack.packs[backpack.equipped].capacity)
+        -- love.graphics.print(backpack.inventory.."/"..backpack.packs[backpack.equipped].capacity)
 
 end
 
